@@ -156,7 +156,7 @@ check_interval = 0 \n
 [[runners]] \n
 \t  name = \"unanet crm build mac\" \n
 \t  url = \"https://gitlab.unanet.io\" \n
-\t  token = \"wom836bsjVhzUCqH4Lg5\" \n
+\t  token = \"XXXX\" \n
 \t  executor = \"shell\" \n
 \t  request_concurrency = 4 \n
 \t  [runners.custom_build_dir] \n
