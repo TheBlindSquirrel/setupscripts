@@ -17,7 +17,7 @@ installComplete() {
 }
 
 # List of applications to install via brew
-declare -a brewApps=("git" "github/gh/gh" "nvm", "brew-gem", "fastlane", "cocoapods", "Swiftlint", "awscli")
+declare -a brewApps=("git" "github/gh/gh" "nvm", "brew-gem", "fastlane", "cocoapods", "Swiftlint")
 
 # List of applications to install via brew cask
 declare -a brewCaskApps=("android-studio", "spotify", "postman", "azure-data-studio")
@@ -140,5 +140,10 @@ zsh | tee -a $logFile
 echo "Installing xcode"
 gem install xcode-install | tee -a $logFile
 xcversion install 13.4.1 | tee -a $logFile
+
+echo "Installing AWS CLI"
+#AWS CLI depends on xcode command tools which need to be installed after xcode itself.
+xcode-select --install
+brew install awscli | tee -a $logFile
 
 echo "A setup log is available at $logFile."
