@@ -17,10 +17,10 @@ installComplete() {
 }
 
 # List of applications to install via brew
-declare -a brewApps=("git" "github/gh/gh" "nvm", "brew-gem", "fastlane", "cocoapods", "Swiftlint", "gitlab-runner")
+declare -a brewApps=("git" "github/gh/gh" "nvm", "brew-gem", "fastlane", "cocoapods", "Swiftlint", "awscli")
 
 # List of applications to install via brew cask
-declare -a brewCaskApps=("android-studio")
+declare -a brewCaskApps=("android-studio", "spotify", "postman", "azure-data-studio")
 
 # Global node packages to install
 declare -a globalNodePackages=("npm@latest" "@ionic/cli")
@@ -140,33 +140,5 @@ zsh | tee -a $logFile
 echo "Installing xcode"
 gem install xcode-install | tee -a $logFile
 xcversion install 13.4.1 | tee -a $logFile
-
-echo "Configuring gitlab runner"
-#Does this need to be sudo?
-gitlab-runner install | tee -a $logFile
-chmod -R drwxrwx--- /etc/gitlab-runner | tee -a $logFile
-cd /etc/gitlab-runner | tee -a $logFile
-echo "
-concurrent = 4 \n
-check_interval = 0 \n
-\n
-[session_server] \n
-\t  session_timeout = 1800 \n
-\n
-[[runners]] \n
-\t  name = \"unanet crm build mac\" \n
-\t  url = \"https://gitlab.unanet.io\" \n
-\t  token = \"XXXX\" \n
-\t  executor = \"shell\" \n
-\t  request_concurrency = 4 \n
-\t  [runners.custom_build_dir] \n
-\t  [runners.cache] \n
-\t\t   [runners.cache.s3] \n
-\t\t   [runners.cache.gcs] \n
-\t\t   [runners.cache.azure] \n
-" > config.toml | tee -a $logFile
-cd ../ | tee -a $logFile
-chmod -R drwxr----- /etc/gitlab-runner | tee -a $logFile
-gitlab-runner start | tee -a $logFile
 
 echo "A setup log is available at $logFile."
